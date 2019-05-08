@@ -1,6 +1,7 @@
 """
 Publish-Subscribe mechanism
 """
+extends Node
 class_name PubSub
 
 const subscriptions = {}
@@ -15,6 +16,9 @@ static func subscribe(event_key, listener)->void:
 	"""
 	Subscribes listener to the given event_key.
 	"""
+	if !listener.has_method("event_published"):
+		# No method to call
+		return
 	if event_key=="":
 		# Subscribe to all events
 		all_events.append(listener)
@@ -47,7 +51,7 @@ static func publish(event_key, payload = null)->void:
 	for listener in listeners:
 		if listener.is_queued_for_deletion():
 			toRemove.add(listener)
-		elif listener.has_method("event_published"):
+		else:
 			listener.event_published(event_key, payload)
 	# Tidy up any deleted listener objects
 	for listenerToRemove in toRemove:
