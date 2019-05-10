@@ -9,6 +9,14 @@ A Player object in an RPG game can publish an event, `"player-xp-gained"`, whene
 
 The biggest benefit of publish-subscribe is that components can communicate without being directly aware of each other.
 
+## Installation
+
+1 Copy the **godot-pub-sub** folder to your projects addons folder
+
+2 Choose **Project* menu -> **Project Settings** -> **Auto Load**
+
+3 Add the `PubSub` class to the list
+
 ## PubSub class
 
 The `PubSub` class is a static class, designed to be accessed from anywhere within a project without requiring `load()` or `preload()` calls.
