@@ -12,6 +12,8 @@ const published_async = []
 
 const all_events = []
 
+const services = {}
+
 static func subscribe(event_key, listener)->void:
 	"""
 	Subscribes listener to the given event_key.
@@ -129,11 +131,30 @@ static func process()->void:
 	if listener.has_method("event_published"):
 		listener.event_published(event_key, payload)
 
+
+static func register_service(service_id:int, provider)->void:
+	"""
+	Registers a service for the given int service_id
+	"""
+	services[service_id] = provider
+
+
+static func get_service(service_id:int):
+	"""
+	Returns the service registered under the given int service_id
+	"""
+	return services[service_id]
+
+
 static func clear()->void:
 	"""
 	Clears all event subscriptions
 	"""
 	subscriptions.clear()
+	instant_subscriptions.clear()
+	published_async.clear()
+	all_events.clear()
+	services.clear()
 
 static func clear_instant_events()->void:
 	"""

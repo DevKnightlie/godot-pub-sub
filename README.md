@@ -83,11 +83,42 @@ If there are any asycnhronous events waiting to be published, removes the next o
 
 `clear()`
 
-Removes all event subscriptions.
+Removes all event subscriptions and registered services (see below).
 
 `clear_instant_events()`
 
 Removes all instant event subscriptions.
+
+## Service Discovery
+
+PubSub can also act as a Service Directory, allowing classes to find objects by an id number. 
+
+`register_service(service_id:int, service)`
+
+Registers a service with the given id number.
+
+`get_service(service_id:int)`
+
+Returns the service registered with the given service_id.
+
+Say you need access to the monster spawner from within your TrappedChest class - once the spawner has registered itself just call PubSub to obtain it:
+
+```Godot
+extends Node
+class_name TrappedChest
+
+func open():
+    var spawner = PubSub.get_service(MONSTER_SPAWNER)
+    spawner.spawn_monster_near(self.location)
+```
+
+Your monster spawner class registers itself like this:
+
+```Godot
+func _init():
+    PubSub.register_service(MONSTER_SPAWNER, self)
+```
+
 
 ## Code Examples
 
