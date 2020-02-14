@@ -146,14 +146,14 @@ var hit_points:int = 80
 func _init():
 	PubSub.subscribe("player_xp_gained", self)
 
-func free():
+func queue_free():
 	PubSub.unsubscribe(self)
-	.free()
+	.queue_free()
 
 func event_published(event_key, payload):
 	if event_key=="player_xp_gained":
 		hit_points += payload as int
 ```
 
-Note how `Monster` unsubscribes itself from all messages in the `free()` method - this is good practice and ensures that the object can be disposed without PubSub keeping a reference to it. PubSub will try and forget about objects which are queued to be freed up, but this should not be relied upon - if there's any chance that your object will be freed up at some point, unsubscribe from all PubSub events.
+Note how `Monster` unsubscribes itself from all messages in the `queue_free()` method - this is good practice and ensures that the object can be disposed without PubSub keeping a reference to it. PubSub will try and forget about objects which are queued to be freed up, but this should not be relied upon - if there's any chance that your object will be freed up at some point, unsubscribe from all PubSub events.
 
